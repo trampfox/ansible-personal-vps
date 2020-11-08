@@ -1,0 +1,37 @@
+---
+- name: Uninstall old versions
+  apt:
+    name: docker docker-engine docker.io containerd runc
+    state: absent
+
+- name: Import Docker’s official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Install packages to allow apt to use repository over HTTPS
+  apt:
+    name: "{{ required_packages }}"
+    state: present
+
+- name: Get release name
+  shell: lsb_release -cs
+  register: release_name
+
+- name: Add specified repository into sources list
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/ubuntu {{ release_name }} stable"
+    state: present
+    update_cache: no
+
+- name: Install Docker packages
+  apt:
+    name: "{{ docker_packages }}"
+    state: present
+
+- name: "Add {{ user }} user to Docker's group"
+  user:
+    name: "{{ user }}"
+    groups:
+      - docker
+    append: yes
