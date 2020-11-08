@@ -1,7 +1,7 @@
 ---
 - name: vps.local
   description: Personal VPS
-  box: centos/7
+  box: ubuntu/20.04
   cpus: 2
   cpu_execution_cap: 75
   ram: 1024
