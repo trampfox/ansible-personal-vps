@@ -1,0 +1,3 @@
+---
+- include: firewall.yaml
+# - include: sshd.yaml # TODO check the configuration on the VPS instance
