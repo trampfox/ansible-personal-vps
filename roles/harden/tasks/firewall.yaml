@@ -5,10 +5,11 @@
     state: enabled
     policy: deny
 
-- name: Allow OpenSSH
+- name: Allow all incoming SSH 
   community.general.ufw:
     rule: allow
-    name: OpenSSH
+    proto: tcp
+    port: '22'
 
 - name: Allow all incoming HTTPS 
   community.general.ufw:
@@ -21,5 +22,13 @@
 - name: SSH connection rate limiting
   community.general.ufw:
     rule: limit
-    port: ssh
+    port: '22'
     proto: tcp
+
+- name: HTTPS connection rate limiting
+  community.general.ufw:
+    rule: limit
+    port: '443'
+    proto: tcp
+
+# TODO allow 443 only from cloudflare 
