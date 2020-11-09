@@ -11,8 +11,8 @@
   template:
     src: chrony.conf.j2
     dest: "{{ v_chrony_config }}"
-    owner: 0
-    group: 0
+    owner: '0'
+    group: '0'
     mode: 0644
   notify:
     - restart chrony
