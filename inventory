@@ -1,2 +1,2 @@
 [hostwinds]
-hwsrv-801609.hostwindsdns.com
+hwsrv-801609.hostwindsdns.com ansible_user=root
