@@ -20,9 +20,9 @@
 
 - name: Add specified repository into sources list
   apt_repository:
-    repo: "deb https://download.docker.com/linux/ubuntu {{ release_name }} stable"
+    repo: "deb https://download.docker.com/linux/ubuntu {{ release_name.stdout }} stable"
     state: present
-    update_cache: no
+    update_cache: yes
 
 - name: Install Docker packages
   apt:
