@@ -3,6 +3,8 @@
   template:
     src: traefik.yaml.j2
     dest: "{{ traefik_directory }}/traefik.yaml"
+  notify:
+    restart traefik
 
 - name: Copy traefik dynamic configuration file
   template:
