@@ -10,7 +10,7 @@
 - name: set locale
   command: localectl set-locale LANG="{{ v_locale }}"
   when:
-    - not current_locale.stdout | search(v_locale)
+    - not current_locale.stdout is search(v_locale)
   tags:
     - locale
 
@@ -25,6 +25,6 @@
 - name: set timezone
   command: timedatectl set-timezone "{{ v_time_zone }}"
   when:
-    - not current_timezone.stdout | search(v_time_zone)
+    - not current_timezone.stdout is search(v_time_zone)
   tags:
     - locale

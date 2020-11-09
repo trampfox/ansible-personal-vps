@@ -1,47 +1,25 @@
 ---
-# - name: remove references to ipv6 in /etc/hosts
-#   replace:
-#     dest: /etc/hosts
-#     regexp: '^(::1)(\s+.*)?$'
-#     replace: '#\1\2'
-#     backup: yes
-#   tags:
-#     - firewall
-#     - ipv6
+# Enable and allow everything
+- name: Allow everything and enable UFW
+  community.general.ufw:
+    state: enabled
+    policy: deny
 
-- name: install iptables services
-  yum:
-    name: iptables-services
-    state: present
-  tags:
-    - firewall
-    - yum
+- name: Allow OpenSSH
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
 
-- name: copy iptables template
-  template:
-    src: iptables.j2
-    dest: "{{ v_firewall_config }}"
-    owner: 0
-    group: 0
-    mode: 0700
-  notify:
-    - restart iptables
-  tags:
-    - firewall
+- name: Allow all incoming HTTPS 
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    port: '443'
 
-- name: uninstall firewalld services
-  yum:
-    name: firewalld
-    state: absent
-  ignore_errors: yes
-  tags:
-    - firewall
-    - yum
-
-- name: enable iptables
-  service:
-    name: iptables
-    enabled: yes
-    state: started
-  tags:
-    - firewall
+# ufw will deny connections if an IP address has attempted 
+# to initiate 6 or more connections in the last 30 seconds.
+- name: SSH connection rate limiting
+  community.general.ufw:
+    rule: limit
+    port: ssh
+    proto: tcp
