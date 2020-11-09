@@ -1,0 +1,16 @@
+http:
+  routers:
+    my-router:
+      rule: "Host(`chat.trampfox.eu`)"
+      entrypoints:
+        - websecure
+      service: rocket-chat
+      tls:
+        certResolver: myresolver
+
+  services:
+    rocket-chat:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.1.102:8443/"
+        passHostHeader: true

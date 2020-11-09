@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:{{ traefik_version }}
+    restart: unless-stopped
+    networks:
+      - {{ traefik_docker_network }}
+    # Enables the web UI and tells Traefik to listen to docker
+    ports:
+      # The HTTP port
+      - {{ traefik_port_http }}:80
+      - {{ traefik_port_https }}:443
+      # The Web UI (enabled by --api.insecure=true)
+      - {{ traefik_dashboard_port }}:8080
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/traefik/traefik.yaml:/traefik.yaml
+      # - /opt/traefik/config.yaml:/config.yaml
+      - /opt/traefik/acme.json:/acme.json
+    environment: 
+      - CLOUDFLARE_EMAIL=trampfox@gmail.com
+      - CLOUDFLARE_API_KEY={{ lookup('env','CLOUDFARE_API_KEY') }}
+
+networks:
+  {{ traefik_docker_network }}:
+    external: true

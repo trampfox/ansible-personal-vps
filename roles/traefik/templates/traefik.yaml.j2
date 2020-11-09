@@ -1,0 +1,31 @@
+entryPoints:
+  web:
+    address: ":{{ traefik_port_http }}"
+  websecure:
+    address: ":{{ traefik_port_https }}"
+
+api:
+  insecure: true
+
+{% if traefik_accesslog_enable %}
+accessLog: {}
+{% endif %}
+
+providers:
+  docker: {}
+  file:
+    filename: /config.yaml
+
+log:
+  level: {{ traefik_log_level }}
+
+{% if traefik_acme_enable %}
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: {{ traefik_acme_email }}
+      storage: acme.json
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 0
+{% endif %}
