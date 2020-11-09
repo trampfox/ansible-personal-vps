@@ -11,6 +11,7 @@
     - docker-engine
     - locale
     - harden
+    - traefik
 
 # - hosts: all
 #   become: yes
