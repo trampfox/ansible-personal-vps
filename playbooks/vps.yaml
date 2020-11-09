@@ -3,29 +3,19 @@
   become: yes
   gather_facts: yes
 
-  vars_files:
-    - ../vars/private/users.yaml
-    - ../vars/private/yum-cron.yaml
+  # vars_files:
+  #   - ../vars/private/users.yaml
 
   roles:
-    - locale
-    - users
-    - sudo
-    - yum-update
-    - yum
     - chrony
+    - docker-engine
+    - locale
     - harden
 
-- hosts: all
-  become: yes
-  become_user: craig
-  gather_facts: no
+# - hosts: all
+#   become: yes
+#   become_user: trampfox
+#   gather_facts: no
 
-  vars_files:
-    - ../vars/private/weechat.yaml
-
-  roles:
-    - shell
-    - tmux
-    - vim
-    - weechat
+#   roles:
+#     - shell
