@@ -2,7 +2,7 @@
 #
 # firewall
 #
-v_firewall_config: /etc/sysconfig/iptables
+firewall_config: /etc/sysconfig/iptables
 
 # Note: Allowing tcp/22 is hardcoded in the template.
 #v_firewall_inbound_ports:
@@ -13,21 +13,19 @@ v_firewall_config: /etc/sysconfig/iptables
 #
 # sshd
 #
-v_ssh_service: sshd
-
-v_ssh_config: /etc/ssh/sshd_config
-
-v_ssh_ports:
+ssh_service: sshd
+ssh_config: /etc/ssh/sshd_config
+ssh_ports:
   - 22
-
-v_ssh_listenaddresses:
+ssh_listenaddresses:
   - 0.0.0.0
-
-v_ssh_serverkeybits: 2048
-
-v_ssh_logingracetime: 15
-
-v_ssh_maxstartups: "5:50:10"
-
-v_ssh_groups:
+ssh_serverkeybits: 2048
+ssh_logingracetime: 15
+ssh_maxstartups: "5:50:10"
+ssh_groups:
   - sshusers
+
+#
+# ufw
+#
+ufw_disable_docker_iptables: true
