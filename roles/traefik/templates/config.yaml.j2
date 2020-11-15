@@ -1,16 +1,23 @@
 http:
   routers:
     my-router:
-      rule: "Host(`chat.trampfox.eu`)"
+      rule: "Host(`mattermost.trampfox.eu`)"
       entrypoints:
         - websecure
-      service: rocket-chat
+      service: mattermost
+      tls:
+        certResolver: myresolver
+    temp-router:
+      rule: "Host(`hwsrv-801609.hostwindsdns.com`)"
+      entrypoints:
+        - websecure
+      service: mattermost
       tls:
         certResolver: myresolver
 
   services:
-    rocket-chat:
+    mattermost:
       loadBalancer:
         servers:
-          - url: "http://192.168.1.102:8443/"
+          - url: "http://localhost:8000/"
         passHostHeader: true

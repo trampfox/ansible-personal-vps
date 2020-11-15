@@ -17,6 +17,17 @@
     proto: tcp
     port: '443'
 
+# see https://stackoverflow.com/a/54064225
+- name: Allow incoming docker0 internal traffic
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    port: '1:65535'
+    interface: docker0
+    direction: in
+    from_ip: 172.17.0.0/16
+    to_ip: 172.17.0.0/16
+
 # ufw will deny connections if an IP address has attempted 
 # to initiate 6 or more connections in the last 30 seconds.
 - name: SSH connection rate limiting

@@ -7,11 +7,14 @@
   #   - ../vars/private/users.yaml
 
   roles:
-    - chrony
-    - docker-engine
-    - locale
-    - harden
-    - traefik
+    - role: chrony
+      tags: install
+    - role: docker-engine
+      tags: install
+    - role: locale
+      tags: install
+    - role: traefik
+      tags: install
 
 # - hosts: all
 #   become: yes

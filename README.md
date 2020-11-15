@@ -79,3 +79,16 @@ $ vagrant destroy -f
 
 - <http://docs.ansible.com/ansible/>
 - <http://cloudinit.readthedocs.io/>
+
+# Rocket.Chat
+
+## Mongodump
+
+```bash
+mongodump --db=parties --out=/tmp/ -v --gzip
+```
+
+## Mongorestore
+```bash
+mongorestore --uri mongodb://localhost:27017 --nsFrom parties.* --nsTo rocketchat.* /tmp/<backup_dir>
+```

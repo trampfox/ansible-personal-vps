@@ -1,0 +1,18 @@
+---
+- name: Stop rocket.chat service
+  service:
+      name: snap.rocketchat-server.rocketchat-server
+      state: stopped
+
+- name: Run backup command
+  shell: snap run rocketchat-server.backupdb
+  register: backup
+
+- name: Print backup command output
+  debug: 
+    msg: "{{ backup.stdout }}"
+
+- name: Start rocket.chat service
+  service:
+      name: snap.rocketchat-server.rocketchat-server
+      state: started

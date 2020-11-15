@@ -1,0 +1,21 @@
+---
+- name: Import MongoDB’s official GPG key
+  apt_key:
+    url: https://www.mongodb.org/static/pgp/server-4.4.asc
+    state: present
+
+- name: Get release name
+  shell: lsb_release -cs
+  register: release_name
+
+- name: Add MongoDB repository into sources list
+  apt_repository:
+    repo: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu {{ release_name.stdout }}/mongodb-org/4.4 multiverse"
+    state: present
+    update_cache: yes
+
+- name: Install mongodb-org-tools package
+  apt:
+    name: "mongodb-org-tools"
+    state: present
+

@@ -1,0 +1,27 @@
+---
+- name: Stop rocket.chat service
+  service:
+      name: snap.rocketchat-server.rocketchat-server
+      state: stopped
+
+- name: Copy rocketchat backup in the /var/snap/rocketchat-server/common/ directory
+  copy:
+    remote_src: yes
+    src: /tmp/backup.tgz
+    dest: /var/snap/rocketchat-server/common/
+
+- name: Case insensitive password string match
+  expect:
+    command: snap run rocketchat-server.restoredb /var/snap/rocketchat-server/common/backup.tgz
+    responses:
+      (?i)#?: "Yes"
+  register: restore
+
+- name: Print restore backup command output
+  debug: 
+    msg: "{{ restore.stdout }}"
+
+- name: Start rocket.chat service
+  service:
+      name: snap.rocketchat-server.rocketchat-server
+      state: started

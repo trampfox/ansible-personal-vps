@@ -1,0 +1,17 @@
+---
+- name: Install snapd
+  apt:
+    name: snapd
+    state: present
+
+- name: Install Rocket.chat via snap
+  snap:
+    name: rocketchat-server
+
+- name: Set custom port
+  shell: snap set rocketchat-server port=8443
+
+- name: Restart rocketchat-server 
+  systemd:
+    name: snap.rocketchat-server.rocketchat-server.service
+    state: restarted
